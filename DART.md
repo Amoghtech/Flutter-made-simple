@@ -24,3 +24,10 @@ void main() {
   print(addNumbers(1,2));
 }
 
+
+
+
+//OUR OWN CONSTRUCTOR
+Person.veryold(this.name){
+  age=60;
+}

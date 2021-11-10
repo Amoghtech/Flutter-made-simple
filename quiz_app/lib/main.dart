@@ -1,4 +1,9 @@
+//Packages
 import 'package:flutter/material.dart';
+
+//My Imports
+import './question.dart';
+import './answer.dart';
 
 // void main() {
 //   runApp(MyApp());
@@ -10,16 +15,16 @@ class MyApp extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
-    return MyAppState();
+    return _MyAppState();
   }
 }
 
-class MyAppState extends State<MyApp> {
-  var questionindex = 0;
+class _MyAppState extends State<MyApp> {
+  var _questionindex = 0;
 
-  void answerquestions() {
+  void _answerquestions() {
     setState(() {
-      questionindex = questionindex + 1;
+      _questionindex = _questionindex + 1;
     });
     // print('Answer chosen');
   }
@@ -27,33 +32,26 @@ class MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext ctx) {
     var questions = [
-      'What\'s your favorite color?',
-      'What\'s your favorite animal'
+      {
+        'questionText': 'What\'s your favorite color?',
+        'answers': ['Black', 'Red', 'Green', 'WHite']
+      },
+      {
+        'questionText': 'What\'s your favorite animal',
+        'answers': ['Rabbit', 'Elephant', 'Lion', 'Snake']
+      }
     ];
-
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
           title: Text('My First App!'),
         ),
         body: Column(children: [
-          Text(questions[questionindex]),
-          RaisedButton(
-            child: Text('Answer 1'),
-            onPressed: answerquestions,
-          ),
-          RaisedButton(
-            child: Text('Answer 2'),
-            onPressed: answerquestions,
-          ),
-          RaisedButton(
-            child: Text('Answer 3'),
-            onPressed: answerquestions,
-          ),
-          RaisedButton(
-            child: Text('Answer 4'),
-            onPressed: answerquestions,
-          ),
+          Question("questions[_questionindex]['questionText']"),
+          ...(questions[_questionindex]['answers'] as List<String>)
+              .map((answers) {
+            return Answer(_answerquestions, answers);
+          }).toList()
         ]),
       ),
     );
