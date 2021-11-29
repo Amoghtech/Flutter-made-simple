@@ -1,4 +1,5 @@
 import 'package:daily_expenses_app/models/transaction.dart';
+import 'package:daily_expenses_app/widgets/chart.dart';
 
 import './widgets/transaction_list.dart';
 import 'package:flutter/material.dart';
@@ -18,14 +19,16 @@ class MyApp extends StatelessWidget {
             accentColor: Colors.amber,
             fontFamily: 'Quicksand',
             textTheme: ThemeData.light().textTheme.copyWith(
-                headline6: TextStyle(fontFamily: 'OpenSans', fontWeight: FontWeight.bold,fontSize: 18)),
+                headline6: TextStyle(
+                    fontFamily: 'OpenSans',
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18)),
             appBarTheme: AppBarTheme(
                 textTheme: ThemeData.light().textTheme.copyWith(
                     headline6: TextStyle(
                         fontFamily: 'OpenSans',
                         fontSize: 20,
-                        fontWeight: FontWeight.bold
-                        )))));
+                        fontWeight: FontWeight.bold)))));
   }
 }
 
@@ -39,11 +42,22 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   final List<Transaction> userTransaction = [
     // Transaction(
-    //     id: 't1', title: 'New Shoes', amount: 69.99, date: DateTime.now()),
+    //     id: 't1',
+    //     title: 'New Shoes',
+    //     amount: 69.99,
+    //     date: DateTime.now().subtract(Duration(days: 1))),
     // Transaction(
-    //     id: 't2', title: 'New Tshirts', amount: 45.54, date: DateTime.now())
-
+    //     id: 't2',
+    //     title: 'New Tshirts',
+    //     amount: 45.54,
+    //     date: DateTime.now().subtract(Duration(days: 2)))
   ];
+
+  List<Transaction> get _recenttransactions {
+    return userTransaction.where((tx) {
+      return tx.date.isAfter(DateTime.now().subtract(Duration(days: 7)));
+    }).toList();
+  }
 
   void _addnewtransaction(title, amount) {
     final newTx = Transaction(
@@ -94,14 +108,7 @@ class _MyHomePageState extends State<MyHomePage> {
         crossAxisAlignment: CrossAxisAlignment.center,
         // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Container(
-            child: Card(
-              child: Text('CHART!'),
-              color: Colors.blue,
-              elevation: 5,
-            ),
-            width: double.infinity,
-          ),
+          Chart(_recenttransactions),
           TransactionList(userTransaction),
         ],
       ),
