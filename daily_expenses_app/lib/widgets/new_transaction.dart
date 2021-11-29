@@ -1,12 +1,30 @@
 import 'package:flutter/material.dart';
 
-class NewTransaction extends StatelessWidget {
-  final titlecontroller = TextEditingController();
-  final amountcontroller = TextEditingController();
-
+class NewTransaction extends StatefulWidget {
   final Function submithandler;
 
   NewTransaction(this.submithandler);
+
+  @override
+  State<NewTransaction> createState() => _NewTransactionState();
+}
+
+class _NewTransactionState extends State<NewTransaction> {
+  final titlecontroller = TextEditingController();
+
+  final amountcontroller = TextEditingController();
+
+  void submitdata() {
+    final enteredtitle = titlecontroller.text;
+    final enteredamount = double.parse(amountcontroller.text);
+    if (enteredtitle.isEmpty || enteredamount <= 0) {
+      return;
+    }
+
+    widget.submithandler(enteredtitle, enteredamount);
+    Navigator.of(context).pop();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -20,6 +38,7 @@ class NewTransaction extends StatelessWidget {
                 // onChanged: (value) {
                 //   titleinput = value;
                 // },
+                onSubmitted: (_) => submitdata(),
                 controller: titlecontroller,
                 decoration: InputDecoration(labelText: 'Title'),
               ),
@@ -27,14 +46,14 @@ class NewTransaction extends StatelessWidget {
                 // onChanged: (value) {
                 //   amountinput = value;
                 // },
+                onSubmitted: (_) => submitdata(),
+
                 controller: amountcontroller,
                 decoration: InputDecoration(labelText: 'Amount'),
+                keyboardType: TextInputType.number,
               ),
               FlatButton(
-                  onPressed: () {
-                    submithandler(titlecontroller.text,
-                        double.parse(amountcontroller.text));
-                  },
+                  onPressed: submitdata,
                   child: Text('Add Transaction'),
                   color: Colors.blue)
             ],
