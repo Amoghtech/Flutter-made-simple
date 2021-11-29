@@ -5,14 +5,14 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "quiz_app",
-            "cwd": "quiz_app",
+            "name": "daily_expenses_app",
+            "cwd": "daily_expenses_app",
             "request": "launch",
             "type": "dart"
         },
         {
-            "name": "quiz_app (profile mode)",
-            "cwd": "quiz_app",
+            "name": "daily_expenses_app (profile mode)",
+            "cwd": "daily_expenses_app",
             "request": "launch",
             "type": "dart",
             "flutterMode": "profile"
