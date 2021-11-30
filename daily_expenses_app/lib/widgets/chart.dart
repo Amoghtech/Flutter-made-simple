@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:daily_expenses_app/models/transaction.dart';
+import 'package:daily_expenses_app/widgets/chart_bar.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 
@@ -24,7 +25,16 @@ class Chart extends StatelessWidget {
       }
       print(DateFormat.E().format(weekday));
       print(totalsum);
-      return {'day': DateFormat.E().format(weekday), 'amount': totalsum};
+      return {
+        'day': DateFormat.E().format(weekday).substring(0, 1),
+        'amount': totalsum
+      };
+    }).reversed.toList();
+  }
+
+  double get maxspending {
+    return groupTransaction.fold(0.0, (previousValue, element) {
+      return previousValue + element['amount'];
     });
   }
 
@@ -34,8 +44,21 @@ class Chart extends StatelessWidget {
     return Card(
       elevation: 6,
       margin: EdgeInsets.all(20),
-      child: Row(
-        children: [],
+      child: Padding(
+        padding: const EdgeInsets.all(10),
+        child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: groupTransaction.map((data) {
+              return Expanded(
+                // fit: FlexFit.tight,
+                child: ChartBar(
+                    data['day'].toString().substring(0, 1),
+                    data['amount'],
+                    maxspending == 0.0
+                        ? 0.0
+                        : ((data['amount'] as double) / maxspending)),
+              );
+            }).toList()),
       ),
     );
   }

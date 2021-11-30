@@ -65,6 +65,16 @@ class TransactionList extends StatelessWidget {
                     ],
                   ),
                 );
+
+                // ListTile(
+                //   leading: CircleAvatar(
+                //     radius: 3,
+                //     child: Text('${transactions[index].amount}'),
+                //   ),
+                //   title: Text(),
+                //   subtitle: ,
+                //   trailing: ,
+                // );
               },
               itemCount: transactions.length,
             ),
