@@ -116,7 +116,7 @@ class _MyHomePageState extends State<MyHomePage> {
         // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Chart(_recenttransactions),
-          Expanded(child: TransactionList(userTransaction,_deleteTransaction)),
+          TransactionList(userTransaction, _deleteTransaction),
         ],
       ),
     );
