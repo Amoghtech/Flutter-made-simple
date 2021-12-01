@@ -1,12 +1,18 @@
 import 'package:daily_expenses_app/models/transaction.dart';
 import 'package:daily_expenses_app/widgets/chart.dart';
+import 'package:flutter/services.dart';
 
 import './widgets/transaction_list.dart';
 import 'package:flutter/material.dart';
 import './widgets/transaction_list.dart';
 import './widgets/new_transaction.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override
@@ -41,6 +47,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  bool _showchart = false;
+
   final List<Transaction> userTransaction = [
     // Transaction(
     //     id: 't1',
@@ -90,6 +98,20 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final appbar = AppBar(
+      title: Text(
+        'Personal Expenses',
+      ),
+      actions: [
+        IconButton(
+          icon: Icon(Icons.add),
+          onPressed: () {
+            _startaddnewtransaction(context);
+          },
+        )
+      ],
+    );
+
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
@@ -98,25 +120,38 @@ class _MyHomePageState extends State<MyHomePage> {
           _startaddnewtransaction(context);
         },
       ),
-      appBar: AppBar(
-        title: Text(
-          'Personal Expenses',
-        ),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.add),
-            onPressed: () {
-              _startaddnewtransaction(context);
-            },
-          )
-        ],
-      ),
+      appBar: appbar,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Chart(_recenttransactions),
-          TransactionList(userTransaction, _deleteTransaction),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text('Show chart!'),
+              Switch(
+                value: _showchart,
+                onChanged: (value) {
+                  setState(() {
+                    _showchart = value;
+                  });
+                },
+              )
+            ],
+          ),
+          _showchart
+              ? Container(
+                  height: (MediaQuery.of(context).size.height -
+                          appbar.preferredSize.height -
+                          MediaQuery.of(context).padding.top) *
+                      0.3,
+                  child: Chart(_recenttransactions))
+              : Container(
+                  height: (MediaQuery.of(context).size.height -
+                          appbar.preferredSize.height -
+                          MediaQuery.of(context).padding.top) *
+                      0.7,
+                  child: TransactionList(userTransaction, _deleteTransaction)),
         ],
       ),
     );
