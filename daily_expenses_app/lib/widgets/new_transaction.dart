@@ -18,11 +18,11 @@ class _NewTransactionState extends State<NewTransaction> {
   void _submitdata() {
     final enteredtitle = _titlecontroller.text;
     final enteredamount = double.parse(_amountcontroller.text);
-    if (enteredtitle.isEmpty || enteredamount <= 0||_selecteddate==null) {
+    if (enteredtitle.isEmpty || enteredamount <= 0 || _selecteddate == null) {
       return;
     }
 
-    widget.submithandler(enteredtitle, enteredamount,_selecteddate);
+    widget.submithandler(enteredtitle, enteredamount, _selecteddate);
     Navigator.of(context).pop();
   }
 
@@ -50,8 +50,13 @@ class _NewTransactionState extends State<NewTransaction> {
     return Card(
         elevation: 5,
         child: Container(
-          padding: EdgeInsets.all(10),
+          padding: EdgeInsets.only(
+              top: 10,
+              left: 10,
+              right: 10,
+              bottom: MediaQuery.of(context).viewInsets.bottom + 10),
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               TextField(
