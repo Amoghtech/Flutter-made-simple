@@ -11,7 +11,6 @@ class CategoryItem extends StatelessWidget {
     // Navigator.of(context).push(MaterialPageRoute(builder: (_) {
     //   return Categorymealsscreen(id, title);
     // }));
-
     Navigator.of(context).pushNamed(Categorymealsscreen.routeName,
         arguments: {'id': id, 'title': title});
   }
