@@ -5,14 +5,14 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "recipes_app",
-      "cwd": "recipes_app",
+      "name": "statemanagement",
+      "cwd": "statemanagement",
       "request": "launch",
       "type": "dart"
     },
     {
-      "name": "recipes_app (profile mode)",
-      "cwd": "recipes_app",
+      "name": "statemanagement (profile mode)",
+      "cwd": "statemanagement",
       "request": "launch",
       "type": "dart",
       "flutterMode": "profile"
