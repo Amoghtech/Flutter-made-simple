@@ -7,6 +7,7 @@ import './screens/category_meals_screen.dart';
 import './models//meal.dart';
 import './screens/categories_screen.dart';
 import 'package:recipes_app/dummy_data.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatefulWidget {
@@ -21,19 +22,15 @@ class _MyAppState extends State<MyApp> {
     "vegan": false,
     "vegetarian": false
   };
-List<Meal> availablemeals=DUMMY_MEALS;
-
+  List<Meal> availablemeals = DUMMY_MEALS;
 
   void _setfilters(Map<String, bool> filterdata) {
     setState(() {
       _filters = filterdata;
-      availablemeals=DUMMY_MEALS.where((element){
-if(_filters['gluten'] && !element.isGlutenFree) {
-return false;
-}
-
-
-
+      availablemeals = DUMMY_MEALS.where((element) {
+        if (_filters['gluten'] && !element.isGlutenFree) {
+          return false;
+        }
       }).toList();
     });
   }
@@ -58,7 +55,8 @@ return false;
       routes: {
         // '/': (ctx) => CategoriesScreen(),
         '/': (ctx) => TabScreen(),
-        Categorymealsscreen.routeName: (ctx) => Categorymealsscreen(availablemeals),
+        Categorymealsscreen.routeName: (ctx) =>
+            Categorymealsscreen(availablemeals),
         MealDetailScreen.routeName: (ctx) => MealDetailScreen(),
         FiltersScreen.routeName: (ctx) => FiltersScreen(_setfilters)
       },
