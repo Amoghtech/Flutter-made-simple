@@ -50,7 +50,7 @@ class ProductDetailScreen extends StatelessWidget {
               child: Text(
                 loadedProduct.description,
                 textAlign: TextAlign.center,
-                // softWrap: true,
+                softWrap: true,
               ),
             )
           ],
