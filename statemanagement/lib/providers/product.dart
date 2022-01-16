@@ -21,11 +21,11 @@ class Product with ChangeNotifier {
     this.isFavorite = false,
   });
 
-  Future<void> toggleFavoriteStatus() async {
+  Future<void> toggleFavoriteStatus(String token,String userId) async {
     final url = Uri.parse(
         'https://flutter-one-61f63-default-rtdb.firebaseio.com/products/${id}.json');
     var oldvalue = isFavorite;
-   try{
+    try {
       final res = await http.patch(url,
           body: json.encode({'isFavorite': !this.isFavorite}));
       if (res.statusCode >= 400) {

@@ -41,6 +41,10 @@ class Products with ChangeNotifier {
   // ];
   // var _showFavoritesOnly = false;
 
+  final String authtoken;
+
+  Products(this.authtoken,this._items);
+
   List<Product> get items {
     // if (_showFavoritesOnly) {
     //   return _items.where((prodItem) => prodItem.isFavorite).toList();
@@ -68,7 +72,7 @@ class Products with ChangeNotifier {
 
   Future<void> addProduct(Product product) async {
     final url = Uri.parse(
-        'https://flutter-one-61f63-default-rtdb.firebaseio.com/products.json');
+        'https://flutter-one-61f63-default-rtdb.firebaseio.com/products.json?auth=${authtoken}');
     try {
       final res = await http.post(url,
           body: json.encode({
@@ -96,7 +100,7 @@ class Products with ChangeNotifier {
 
   Future<void> fetchproducts() async {
     final url = Uri.parse(
-        'https://flutter-one-61f63-default-rtdb.firebaseio.com/products.json');
+        'https://flutter-one-61f63-default-rtdb.firebaseio.com/products.json?auth=${this.authtoken}');
     try {
       final res = await http.get(url);
       if (res == null) return;
@@ -126,7 +130,7 @@ class Products with ChangeNotifier {
     final prodIndex = _items.indexWhere((prod) => prod.id == id);
     if (prodIndex >= 0) {
       final url = Uri.parse(
-          'https://flutter-one-61f63-default-rtdb.firebaseio.com/products/${id}.json');
+          'https://flutter-one-61f63-default-rtdb.firebaseio.com/products/${id}.json?auth=${authtoken}');
       await http.patch(url,
           body: json.encode({
             'title': newProduct.title,
@@ -144,7 +148,7 @@ class Products with ChangeNotifier {
 
   Future<void> deleteProduct(String id) async {
     final url = Uri.parse(
-        'https://flutter-one-61f63-default-rtdb.firebaseio.com/products/${id}.json');
+        'https://flutter-one-61f63-default-rtdb.firebaseio.com/products/${id}.json?auth=${authtoken}');
     var existingproductindex = _items.indexWhere((element) => element.id == id);
     var exisitingproduct = _items[existingproductindex];
     _items.removeAt(existingproductindex);
