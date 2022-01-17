@@ -5,14 +5,14 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "statemanagement",
-      "cwd": "statemanagement",
+      "name": "placeapp",
+      "cwd": "placeapp",
       "request": "launch",
       "type": "dart"
     },
     {
-      "name": "statemanagement (profile mode)",
-      "cwd": "statemanagement",
+      "name": "placeapp (profile mode)",
+      "cwd": "placeapp",
       "request": "launch",
       "type": "dart",
       "flutterMode": "profile"
