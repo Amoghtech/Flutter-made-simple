@@ -24,7 +24,6 @@ class _EditProductScreenState extends State<EditProductScreen> {
     description: '',
     imageUrl: '',
   );
-  var isloading = false;
   var _initValues = {
     'title': '',
     'description': '',
@@ -32,6 +31,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
     'imageUrl': '',
   };
   var _isInit = true;
+  var _isLoading = false;
 
   @override
   void initState() {
@@ -90,7 +90,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
     }
     _form.currentState.save();
     setState(() {
-      isloading = true;
+      _isLoading = true;
     });
     if (_editedProduct.id != null) {
       await Provider.of<Products>(context, listen: false)
@@ -100,29 +100,31 @@ class _EditProductScreenState extends State<EditProductScreen> {
         await Provider.of<Products>(context, listen: false)
             .addProduct(_editedProduct);
       } catch (error) {
-        showDialog<Null>(
-            context: context,
-            builder: (ctx) => AlertDialog(
-                  title: Text('An error occurred!'),
-                  content: Text(error.toString()),
-                  actions: [
-                    FlatButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: Text('Okay!'))
-                  ],
-                ));
+        await showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+                title: Text('An error occurred!'),
+                content: Text('Something went wrong.'),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text('Okay'),
+                    onPressed: () {
+                      Navigator.of(ctx).pop();
+                    },
+                  )
+                ],
+              ),
+        );
       }
-      //  finally {
+      // finally {
       //   setState(() {
-      //     isloading = false;
+      //     _isLoading = false;
       //   });
       //   Navigator.of(context).pop();
       // }
     }
     setState(() {
-      isloading = false;
+      _isLoading = false;
     });
     Navigator.of(context).pop();
     // Navigator.of(context).pop();
@@ -140,8 +142,10 @@ class _EditProductScreenState extends State<EditProductScreen> {
           ),
         ],
       ),
-      body: isloading
-          ? Center(child: CircularProgressIndicator())
+      body: _isLoading
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
           : Padding(
               padding: const EdgeInsets.all(16.0),
               child: Form(
